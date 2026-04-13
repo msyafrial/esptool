@@ -1,91 +1,51 @@
-Purpose
+# AGENTS.md
 
-This repository hosts the public landing site for The Last Outpost Workshop:
-https://thelastoutpostworkshop.github.io/
+## Project scope
+ESPConnect is a desktop application for connecting to and monitoring ESP devices, including serial communication and device management. Automated agents are authorized to modify code and assets within this repository.
 
-The site is complete. Future work should be incremental, preserving layout, performance, and the sci-fi/HUD visual identity.
+## Code modification authority
+Agents may create, edit, move, and delete files; refactor code when instructed; and apply migrations or architectural changes. Agents do not need confirmation for normal code changes. Do not modify or exfiltrate secrets, credentials, licenses, signing material, or CI/CD keys.
 
-Tech stack and constraints
+## Technology constraints
+- Vue 3 Composition API only
+- TypeScript required
+- Vuetify UI
+- No Options API
+- No direct DOM manipulation
+- No MutationObservers or DOM walkers
 
-Vue 3 + TypeScript (Composition API)
+## Internationalization rules
+- All UI text must use Vue I18n
+- No hardcoded UI strings
+- No DOM-based translation logic
+- Serial/device output must never be translated
+- Session log entries must remain English-only and must not be translated
+- Translation keys must be namespaced (e.g., `common.*`, `serial.*`)
+- Keep keys consistent with existing structure
+- Preserve formatting/whitespace unless required
+- Preserve placeholders exactly (e.g., `{fs}`, `{language}`, `{count}`)
+- Do not translate technical terms unless the UI already does so consistently
+- When adding a locale, mirror `en.ts`, register it in `src/plugins/i18n.ts`, extend `supportedLocales`, and add the language name in the `language` block
 
-Tailwind CSS
+## Serial Monitor rules
+- ANSI escape sequences must render as colors
+- Raw ANSI codes must never be displayed
+- Serial output must be preserved verbatim except for ANSI rendering
 
-Static site only (GitHub Pages). No backend, auth, or CMS.
+## Behavioral rules
+- Prefer clarity over cleverness
+- Keep diffs minimal and reviewable
+- Keep changes focused (one feature/fix at a time)
+- Do not introduce breaking changes unless explicitly instructed
+- Follow existing project structure and naming
 
-Keep routing minimal and Pages-friendly:
+## Error handling philosophy
+- Transport/probe failures should be non-fatal where possible
+- Prefer graceful degradation over hard failure
+- Improve error messages when upstream libraries are vague
 
-Prefer a single-page layout with anchor navigation
-
-Avoid history-mode routing that requires rewrites
-
-Design rules
-Look & feel
-
-Maintain the tasteful sci-fi console/HUD aesthetic:
-
-thin borders, subtle glows, light grid/texture accents
-
-clean modern typography
-
-dark background with restrained accent colors
-
-Avoid gimmicks or heavy visual effects.
-
-Motion
-
-Keep animations subtle and lightweight:
-
-micro-interactions on hover
-
-small entrance/reveal transitions
-
-Respect prefers-reduced-motion.
-
-Performance rules
-
-Avoid large bundles and unnecessary dependencies.
-
-Optimize images (prefer modern formats where relevant).
-
-No heavy video backgrounds.
-
-Dependency policy
-
-Only add packages that provide clear UX value.
-
-Tailwind is required.
-
-Avoid large UI frameworks (no Vuetify/PrimeVue for this repo).
-
-Prefer minimal icon/motion/meta utilities if already in use; do not add duplicates.
-
-Accessibility requirements
-
-Maintain adequate contrast and visible focus states.
-
-Ensure keyboard navigation works for nav + CTAs.
-
-Use semantic HTML and a correct heading hierarchy.
-
-Deployment notes
-
-This is a GitHub Pages user site deployed at the domain root.
-
-Ensure base path remains correct for root hosting.
-
-Keep README instructions accurate:
-
-how to run dev server
-
-how to build
-
-high-level deploy steps
-
-Change philosophy
-
-Prefer small, safe changes.
-
-Do not break existing URLs or tool paths.
-
-If a change impacts layout, links, or performance, include a brief rationale in the PR description.
+## Acceptance criteria
+- Changes must build successfully
+- Typecheck, unit tests, and E2E tests must pass when applicable
+- Existing functionality must not regress
+- UI behavior must remain intuitive for end users

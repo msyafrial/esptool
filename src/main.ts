@@ -1,8 +1,15 @@
-import { createApp } from 'vue'
+import { createApp } from 'vue';
+import App from './App.vue';
 
-import App from './App.vue'
-import { reveal } from './shared/reveal'
-import './style.css'
+import 'vuetify/styles';
+import '@mdi/font/css/materialdesignicons.css';
+import './style.css';
 
-createApp(App).directive('reveal', reveal).mount('#app')
+import vuetify from './plugins/vuetify';
+import { i18n } from './plugins/i18n';
 
+const app = createApp(App);
+
+app.use(vuetify);
+app.use(i18n);
+app.mount('#app');
